@@ -2,7 +2,7 @@
 
 An API to see if an IP is associated with a VPN network.
 
-This API uses the [X4BNet VPN list](https://github.com/X4BNet/lists_vpn) and [misp-warninglists] (https://github.com/MISP/misp-warninglists/blob/main/lists/vpn-ipv6/list.json) to check if a given IP address belongs to a known VPN network.
+This API uses the [X4BNet VPN list](https://github.com/X4BNet/lists_vpn) and [misp-warninglists](https://github.com/MISP/misp-warninglists/blob/main/lists/vpn-ipv6/list.json) to check if a given IP address belongs to a known VPN network.
 
 ## Features
 
