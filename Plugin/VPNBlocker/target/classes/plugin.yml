@@ -1,5 +1,22 @@
 name: VPNBlocker
-version: 1.0
+version: 1.1b
 main: me.TrainBoy888.vpnblocker.VPNBlocker
 author: TrainBoy888
 description: Blocks players using VPNs or proxies
+
+commands:
+  vpnblocker:
+    description: VPNBlocker command
+    usage: /vpnblocker <reload|check>
+    permission: vpnblocker.admin
+
+permissions:
+  vpnblocker.admin:
+    description: Allows all VPNBlocker commands
+    default: op
+  vpnblocker.reload:
+    description: Allows reloading the configuration
+    default: op
+  vpnblocker.check:
+    description: Allows checking if a player or IP is a VPN
+    default: op
