@@ -6,6 +6,7 @@ const VPN_IPV6_LIST_URL = 'https://raw.githubusercontent.com/MISP/misp-warningli
 let vpnRangesIPv4 = [];
 let vpnRangesIPv6 = [];
 let lastUpdated = null;
+let blacklistedIPs = new Set(['163.116.254.42']); // Store blacklisted IPs
 
 /**
  * Fetches the IPv4 VPN IP list from X4BNet repository
@@ -110,6 +111,11 @@ function isVPNIPv6(ip) {
  * @returns {boolean} True if the IP is in a VPN range
  */
 function isVPN(ip) {
+  // Check blacklist first
+  if (blacklistedIPs.has(ip)) {
+    return true;
+  }
+
   // Detect if IPv6 (contains colons)
   if (ip.includes(':')) {
     return isVPNIPv6(ip);
@@ -137,9 +143,36 @@ function getRangeCount() {
   };
 }
 
+/**
+ * Adds an IP to the blacklist
+ * @param {string} ip - IP address to blacklist
+ */
+function addToBlacklist(ip) {
+  blacklistedIPs.add(ip);
+}
+
+/**
+ * Removes an IP from the blacklist
+ * @param {string} ip - IP address to remove from blacklist
+ */
+function removeFromBlacklist(ip) {
+  blacklistedIPs.delete(ip);
+}
+
+/**
+ * Gets the blacklisted IPs
+ * @returns {string[]} Array of blacklisted IPs
+ */
+function getBlacklist() {
+  return Array.from(blacklistedIPs);
+}
+
 module.exports = {
   updateVPNList,
   isVPN,
   getLastUpdated,
-  getRangeCount
+  getRangeCount,
+  addToBlacklist,
+  removeFromBlacklist,
+  getBlacklist
 };
