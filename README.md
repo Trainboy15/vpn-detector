@@ -2,13 +2,14 @@
 
 An API to see if an IP is associated with a VPN network.
 
-This API uses the [X4BNet VPN list](https://github.com/X4BNet/lists_vpn) to check if a given IP address belongs to a known VPN network.
+This API uses the [X4BNet VPN list](https://github.com/X4BNet/lists_vpn) and [misp-warninglists] (https://github.com/MISP/misp-warninglists/blob/main/lists/vpn-ipv6/list.json) to check if a given IP address belongs to a known VPN network.
 
 ## Features
 
 - Check if an IP address is associated with a VPN
 - Automatically downloads and caches the X4BNet VPN list
 - Simple REST API
+- Works with IPv4 & IPv6 addresses.
 - Health check endpoint
 
 ## Uses
@@ -16,6 +17,7 @@ This API uses the [X4BNet VPN list](https://github.com/X4BNet/lists_vpn) to chec
 This VPN detector API can be integrated into various applications and services:
 
 - **Anti-VPN Plugins**: Protect your Minecraft, gaming, or web servers by blocking VPN users
+  - Included in this repo!
   - Minecraft server plugins (Spigot, Paper, Bukkit)
   - Game server anti-cheat systems
   - Forum and community platforms
@@ -63,7 +65,7 @@ Check the API health and status.
 
 ### GET /check/:ip
 
-Check if an IP address is associated with a VPN.
+Check if an IP address is associated with a VPN. Works with IPv4 & IPv6 addresses.
 
 **Example:**
 ```bash
@@ -99,7 +101,7 @@ curl -X POST http://localhost:3000/refresh
 
 ## Data Source
 
-This API uses the VPN IP list from [X4BNet/lists_vpn](https://github.com/X4BNet/lists_vpn/blob/main/ipv4.txt).
+This API uses the VPN IP list from [X4BNet/lists_vpn](https://github.com/X4BNet/lists_vpn/blob/main/ipv4.txt) and [misp-warninglists] (https://github.com/MISP/misp-warninglists/blob/main/lists/vpn-ipv6/list.json).
 
 ## License
 
