@@ -11,6 +11,20 @@ This API uses the [X4BNet VPN list](https://github.com/X4BNet/lists_vpn) to chec
 - Simple REST API
 - Health check endpoint
 
+## Uses
+
+This VPN detector API can be integrated into various applications and services:
+
+- **Anti-VPN Plugins**: Protect your Minecraft, gaming, or web servers by blocking VPN users
+  - Minecraft server plugins (Spigot, Paper, Bukkit)
+  - Game server anti-cheat systems
+  - Forum and community platforms
+- **Content Protection**: Enforce geographic restrictions and prevent VPN-based bypasses
+- **Fraud Prevention**: Detect suspicious logins or transactions from VPN networks
+- **Rate Limiting**: Identify and manage traffic from VPN services
+- **Analytics**: Filter VPN traffic from your website analytics for more accurate data
+- **Security Systems**: Flag potential security risks from anonymized connections
+
 ## Installation
 
 ```bash
