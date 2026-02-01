@@ -1,0 +1,41 @@
+# VPNBlocker configuration
+# Base URL for your VPN check service (no trailing slash)
+api:
+  # Please dont change this unless you are self-hosting with https://github.com/Trainboy15/vpn-detector
+  base-url: "https://vigilant-invention-69v4w7gj44gvfxq5p-3000.app.github.dev"
+  # Request timeouts in milliseconds
+  connect-timeout-ms: 5000
+  read-timeout-ms: 5000
+
+checks:
+  # Enable/disable VPN checks on player join
+  on-join: true
+  # If the check fails (network error), kick the player anyway
+  kick-on-error: false
+
+kick:
+  enabled: true
+  message:
+    - " "
+    - " "
+    - "              &8[&4Anti-VPN&8]               "
+    - "&cVPNs and proxies are not allowed on this server."
+    - "&7Please disable your VPN and try again."
+  error-message:
+    - " "
+    - " "
+    - "              &8[&4Anti-VPN&8]               "
+    - "&cCould not verify your connection."
+    - "&7Please try again later."
+
+logging:
+  # Log successful checks and API responses
+  debug: false
+
+stats:
+  # Enable reporting server stats to /ping
+  enabled: true
+  # Optional server identifier (defaults to server name if blank)
+  server-id: ""
+  # How often to report stats (seconds)
+  interval-seconds: 60

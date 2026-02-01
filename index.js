@@ -1,11 +1,51 @@
 const express = require('express');
+const { EventEmitter } = require('events');
+const fs = require('fs');
+const path = require('path');
 const { updateVPNList, isVPN, getLastUpdated, getRangeCount } = require('./vpnChecker');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const STATS_PATH = path.join(__dirname, 'stats.json');
+
+// Stats tracking (merged from stats.js)
+const statsEvents = new EventEmitter();
+const stats = new Map();
+
+function loadStatsFromDisk() {
+  try {
+    if (!fs.existsSync(STATS_PATH)) {
+      return;
+    }
+    const raw = fs.readFileSync(STATS_PATH, 'utf8');
+    if (!raw.trim()) {
+      return;
+    }
+    const data = JSON.parse(raw);
+    Object.entries(data).forEach(([serverId, pings]) => {
+      if (Array.isArray(pings)) {
+        stats.set(serverId, pings);
+      }
+    });
+  } catch (error) {
+    console.error('Failed to load stats.json:', error.message);
+  }
+}
+
+function saveStatsToDisk() {
+  try {
+    const json = JSON.stringify(Object.fromEntries(stats), null, 2);
+    fs.writeFileSync(STATS_PATH, json, 'utf8');
+  } catch (error) {
+    console.error('Failed to save stats.json:', error.message);
+  }
+}
 
 // Middleware
 app.use(express.json());
+
+// Load stats from disk on startup
+loadStatsFromDisk();
 
 // Initialize VPN list on startup
 let isInitialized = false;
@@ -30,6 +70,35 @@ app.get('/health', (req, res) => {
     lastUpdated: getLastUpdated(),
     rangeCount: getRangeCount()
   });
+});
+
+// Stats ping endpoint
+app.post('/ping', (req, res) => {
+  try {
+    const { serverId, timestamp, ...metrics } = req.body || {};
+
+    if (!serverId) {
+      return res.status(400).json({ error: 'serverId is required' });
+    }
+
+    if (!stats.has(serverId)) {
+      stats.set(serverId, []);
+    }
+
+    const ping = {
+      serverId,
+      timestamp: timestamp || Date.now(),
+      ...metrics
+    };
+
+    stats.get(serverId).push(ping);
+    statsEvents.emit('ping', ping);
+    saveStatsToDisk();
+
+    res.json({ status: 'ok' });
+  } catch (err) {
+    res.status(400).json({ error: 'Invalid JSON' });
+  }
 });
 
 // Check IP endpoint

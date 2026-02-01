@@ -1,0 +1,27 @@
+{
+  "Paper": [
+    {
+      "serverId": "Paper",
+      "timestamp": 1769949063388,
+      "onlinePlayers": 1,
+      "maxPlayers": 20,
+      "version": "git-Paper-1620 (MC: 1.12.2)"
+    }
+  ],
+  "ss": [
+    {
+      "serverId": "ss",
+      "timestamp": 1769949081005,
+      "onlinePlayers": 0,
+      "maxPlayers": 20,
+      "version": "git-Paper-1620 (MC: 1.12.2)"
+    },
+    {
+      "serverId": "ss",
+      "timestamp": 1769949141116,
+      "onlinePlayers": 1,
+      "maxPlayers": 20,
+      "version": "git-Paper-1620 (MC: 1.12.2)"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+name: VPNBlocker
+version: 1.0
+main: me.TrainBoy888.vpnblocker.VPNBlocker
+author: TrainBoy888
+description: Blocks players using VPNs or proxies
