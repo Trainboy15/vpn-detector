@@ -101,6 +101,32 @@ app.post('/ping', (req, res) => {
   }
 });
 
+/**
+ * Validates IPv4 address format
+ * @param {string} ip - IP address to validate
+ * @returns {boolean} True if valid IPv4
+ */
+function isValidIPv4(ip) {
+  const ipv4Regex = /^(\d{1,3}\.){3}\d{1,3}$/;
+  if (!ipv4Regex.test(ip)) return false;
+  // Check octets are 0-255
+  return ip.split('.').every(octet => {
+    const num = parseInt(octet, 10);
+    return num >= 0 && num <= 255;
+  });
+}
+
+/**
+ * Validates IPv6 address format
+ * @param {string} ip - IP address to validate
+ * @returns {boolean} True if valid IPv6
+ */
+function isValidIPv6(ip) {
+  // Basic IPv6 validation - must contain colons and valid hex characters
+  const ipv6Regex = /^(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$/;
+  return ipv6Regex.test(ip);
+}
+
 // Check IP endpoint
 app.get('/check/:ip', (req, res) => {
   if (!isInitialized) {
@@ -109,9 +135,11 @@ app.get('/check/:ip', (req, res) => {
 
   const { ip } = req.params;
 
-  // Basic IP validation
-  const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$/;
-  if (!ipRegex.test(ip)) {
+  // Determine IP version and validate
+  const isIPv6 = ip.includes(':');
+  const isValid = isIPv6 ? isValidIPv6(ip) : isValidIPv4(ip);
+
+  if (!isValid) {
     return res.status(400).json({ error: 'Invalid IP address format' });
   }
 
@@ -120,6 +148,7 @@ app.get('/check/:ip', (req, res) => {
     res.json({
       ip: ip,
       isVPN: result,
+      ipVersion: isIPv6 ? 6 : 4,
       checkedAt: new Date().toISOString()
     });
   } catch (error) {
