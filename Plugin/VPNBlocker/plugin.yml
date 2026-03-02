@@ -7,7 +7,7 @@ description: Blocks players using VPNs or proxies
 commands:
   vpnblocker:
     description: VPNBlocker command
-    usage: /vpnblocker <reload|check>
+    usage: /vpnblocker <reload|check|blacklist|whitelist>
     permission: vpnblocker.admin
 
 permissions:
@@ -19,4 +19,10 @@ permissions:
     default: op
   vpnblocker.check:
     description: Allows checking if a player or IP is a VPN
+    default: op
+  vpnblocker.blacklist:
+    description: Allows managing blacklist entries
+    default: op
+  vpnblocker.whitelist:
+    description: Allows managing whitelist entries
     default: op

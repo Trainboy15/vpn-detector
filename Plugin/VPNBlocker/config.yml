@@ -1,7 +1,7 @@
 # VPNBlocker configuration
 # Base URL for your VPN check service (no trailing slash)
 api:
-  # Please dont change this unless you are self-hosting with https://github.com/Trainboy15/vpn-detector
+  # Please dont change this unless you dont want stats to be autor.
   base-url: "https://vigilant-invention-69v4w7gj44gvfxq5p-3000.app.github.dev"
   # Request timeouts in milliseconds
   connect-timeout-ms: 5000
@@ -10,8 +10,16 @@ api:
 checks:
   # Enable/disable VPN checks on player join
   on-join: true
-  # If the check fails (network error), kick the player anyway
-  kick-on-error: false
+
+lists:
+  # Download these VPN CIDR lists once on startup/reload and cache on disk
+  source-urls:
+    - "https://raw.githubusercontent.com/X4BNet/lists_vpn/main/ipv4.txt"
+    - "https://raw.githubusercontent.com/MISP/misp-warninglists/main/lists/vpn-ipv6/list.json"
+  # Always blocked IPs (exact IP match)
+  blacklist: []
+  # Always allowed IPs (exact IP match, overrides blacklist and VPN list)
+  whitelist: []
 
 kick:
   enabled: true

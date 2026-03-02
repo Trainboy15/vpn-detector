@@ -7,7 +7,7 @@ let vpnRangesIPv4 = [];
 let vpnRangesIPv6 = [];
 let lastUpdated = null;
 let blacklistedIPs = new Set(['163.116.254.42']); // Store blacklisted IPs
-
+let whielistedIPs = new Set(['186.33.25.131']); // Store whitelisted IPs
 /**
  * Fetches the IPv4 VPN IP list from X4BNet repository
  * @returns {Promise<string[]>} Array of CIDR ranges
@@ -66,7 +66,6 @@ function isVPNIPv4(ip) {
   if (vpnRangesIPv4.length === 0) {
     throw new Error('IPv4 VPN list not loaded');
   }
-
   for (const range of vpnRangesIPv4) {
     try {
       const cidr = new IPCIDR(range);
@@ -115,7 +114,9 @@ function isVPN(ip) {
   if (blacklistedIPs.has(ip)) {
     return true;
   }
-
+  if (whielistedIPs.has(ip)) {
+    return false;
+  }
   // Detect if IPv6 (contains colons)
   if (ip.includes(':')) {
     return isVPNIPv6(ip);

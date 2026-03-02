@@ -3,6 +3,8 @@ const { EventEmitter } = require('events');
 const fs = require('fs');
 const path = require('path');
 const { updateVPNList, isVPN, getLastUpdated, getRangeCount, addToBlacklist, removeFromBlacklist, getBlacklist } = require('./vpnChecker');
+const console = require('console');
+const e = require('express');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -163,6 +165,12 @@ app.get('/check/:ip', (req, res) => {
       ipVersion: isIPv6 ? 6 : 4,
       checkedAt: new Date().toISOString()
     });
+    if (result === true) {
+      console.warn(`Checked IP: ${ip} - VPN: ${result} - Version: ${isIPv6 ? 'IPv6' : 'IPv4'}`);
+    }
+    else {
+      console.log(`Checked IP: ${ip} - VPN: ${result} - Version: ${isIPv6 ? 'IPv6' : 'IPv4'}`);
+    }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
