@@ -1,103 +1,22 @@
 # vpn-detector
 
-An API to see if an IP is associated with a VPN network.
-
 This API uses the [X4BNet VPN list](https://github.com/X4BNet/lists_vpn) and [misp-warninglists](https://github.com/MISP/misp-warninglists/blob/main/lists/vpn-ipv6/list.json) to check if a given IP address belongs to a known VPN network.
 
 ## Features
 
 - Check if an IP address is associated with a VPN
 - Automatically downloads and caches the X4BNet VPN list
-- Simple REST API
 - Works with IPv4 & IPv6 addresses.
-- Health check endpoint
-
 ## Uses
 
-This VPN detector API can be integrated into various applications and services:
+This VPN detector can be integrated into various applications and services:
 
-- **Anti-VPN Plugins**: Protect your Minecraft, gaming, or web servers by blocking VPN users
-  - Included in this repo!
+- **Anti-VPN Plugins**: Protect your Minecraft servers by blocking VPN users
+  - Included in this plugin!
   - Minecraft server plugins (Spigot, Paper, Bukkit)
-  - Game server anti-cheat systems
-  - Forum and community platforms
-- **Content Protection**: Enforce geographic restrictions and prevent VPN-based bypasses
-- **Fraud Prevention**: Detect suspicious logins or transactions from VPN networks
-- **Rate Limiting**: Identify and manage traffic from VPN services
-- **Analytics**: Filter VPN traffic from your website analytics for more accurate data
-- **Security Systems**: Flag potential security risks from anonymized connections
 
 ## Installation
-
-```bash
-npm install
-```
-
-## Usage
-
-Start the server:
-
-```bash
-npm start
-```
-
-The API will be available at `http://localhost:3000` (or the port specified in the `PORT` environment variable).
-
-## API Endpoints
-
-### GET /
-
-Get API information and available endpoints.
-
-### GET /health
-
-Check the API health and status.
-
-**Response:**
-```json
-{
-  "status": "ok",
-  "initialized": true,
-  "lastUpdated": "2026-02-01T10:00:00.000Z",
-  "rangeCount": 12345
-}
-```
-
-### GET /check/:ip
-
-Check if an IP address is associated with a VPN. Works with IPv4 & IPv6 addresses.
-
-**Example:**
-```bash
-curl http://localhost:3000/check/1.12.0.1
-```
-
-**Response:**
-```json
-{
-  "ip": "1.12.0.1",
-  "isVPN": true,
-  "checkedAt": "2026-02-01T10:00:00.000Z"
-}
-```
-
-### POST /refresh
-
-Manually refresh the VPN list from the source.
-
-**Example:**
-```bash
-curl -X POST http://localhost:3000/refresh
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "lastUpdated": "2026-02-01T10:00:00.000Z",
-  "rangeCount": 12345
-}
-```
+Move VPNBlocker-x.x.x.jar to `/server/plugins/`
 
 ## Data Source
 
