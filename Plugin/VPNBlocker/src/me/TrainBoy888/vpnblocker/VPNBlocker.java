@@ -64,6 +64,9 @@ public class VPNBlocker extends JavaPlugin implements CommandExecutor, TabComple
         startStatsReporting();
 
         getLogger().info("VPNBlocker enabled (cached ranges: " + getCachedRangeCount() + ")");
+
+        int pluginId = 31696;
+        Metrics metrics = new Metrics(this, pluginId);
     }
 
     @Override
